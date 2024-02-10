@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="Character" type="KinematicBody2D"]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="Pivot" type="Position2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Pivot"]
+
+[node name="Animation" type="AnimationPlayer" parent="."]
