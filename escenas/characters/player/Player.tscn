@@ -21,6 +21,7 @@
 [ext_resource path="res://components/Hurtbox.tscn" type="PackedScene" id=19]
 [ext_resource path="res://escenas/characters/player/Dead.gd" type="Script" id=20]
 [ext_resource path="res://escenas/characters/player/Hit.gd" type="Script" id=21]
+[ext_resource path="res://components/Parrybox.tscn" type="PackedScene" id=23]
 
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 7.0
@@ -28,9 +29,6 @@ height = 18.0
 
 [sub_resource type="CircleShape2D" id=8]
 radius = 15.0333
-
-[sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 10, 17 )
 
 [sub_resource type="RectangleShape2D" id=18]
 extents = Vector2( 6, 12 )
@@ -68,6 +66,18 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Pivot/Hurtbox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -287,6 +297,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true, false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Pivot/Hurtbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "run"
@@ -323,6 +345,8 @@ tracks/0/keys = {
 }
 
 [node name="Player" groups=["Player"] instance=ExtResource( 2 )]
+z_index = 5
+collision_mask = 4
 script = ExtResource( 3 )
 speed = 150.0
 lifes = 3
@@ -339,25 +363,35 @@ hframes = 8
 vframes = 11
 
 [node name="Hitbox" parent="Pivot" index="1" instance=ExtResource( 13 )]
+collision_layer = 64
+collision_mask = 32
+state_machine = NodePath("../../PlayerStateMachine")
+character = NodePath("../..")
+damage = 1.0
+knockback_force = 50
 
 [node name="CollisionShape2D" parent="Pivot/Hitbox" index="0"]
 position = Vector2( 12, 12 )
 shape = SubResource( 8 )
 disabled = true
 
-[node name="Parrybox" type="Area2D" parent="Pivot" index="2"]
+[node name="Parrybox" parent="Pivot" index="2" instance=ExtResource( 23 )]
+collision_layer = 256
+collision_mask = 128
+knockback_force = 50.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Parrybox" index="0"]
-position = Vector2( 0, 10 )
-shape = SubResource( 14 )
-disabled = true
+[node name="CollisionShape2D" parent="Pivot/Parrybox" index="0"]
+position = Vector2( 2, 11.5 )
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot" index="3"]
 modulate = Color( 0, 1, 0, 1 )
 enabled = true
 cast_to = Vector2( 15, 0 )
+collision_mask = 4
 
 [node name="Hurtbox" parent="Pivot" index="4" instance=ExtResource( 19 )]
+collision_layer = 16
+collision_mask = 128
 character_path = NodePath("../..")
 state_machine_path = NodePath("../../PlayerStateMachine")
 sprite_path = NodePath("../Sprite")
@@ -365,6 +399,7 @@ sprite_path = NodePath("../Sprite")
 [node name="CollisionShape2D" parent="Pivot/Hurtbox" index="0"]
 position = Vector2( -1, 14 )
 shape = SubResource( 18 )
+disabled = true
 
 [node name="Animation" parent="." index="2"]
 anims/RESET = SubResource( 1 )
@@ -437,4 +472,5 @@ script = ExtResource( 20 )
 script = ExtResource( 18 )
 
 [editable path="Pivot/Hitbox"]
+[editable path="Pivot/Parrybox"]
 [editable path="Pivot/Hurtbox"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://escenas/characters/character model/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/enemy/whale/idle.png" type="Texture" id=2]
@@ -9,9 +9,24 @@
 [ext_resource path="res://escenas/characters/enemy base/EnemyBaseSM.gd" type="Script" id=7]
 [ext_resource path="res://assets/enemy/whale/attack.png" type="Texture" id=8]
 [ext_resource path="res://escenas/characters/enemy base/Attack.gd" type="Script" id=9]
+[ext_resource path="res://assets/enemy/whale/hit.png" type="Texture" id=10]
+[ext_resource path="res://assets/enemy/whale/dead.png" type="Texture" id=11]
+[ext_resource path="res://components/Hurtbox.tscn" type="PackedScene" id=12]
+[ext_resource path="res://components/Hitbox.tscn" type="PackedScene" id=13]
+[ext_resource path="res://escenas/characters/enemy base/Hit.gd" type="Script" id=14]
+[ext_resource path="res://escenas/characters/enemy base/Dead.gd" type="Script" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 25.5, 18 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 140, 10 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 21.5, 18.5 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 13.5, 19 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -51,10 +66,22 @@ tracks/2/keys = {
 "update": 0,
 "values": [ 0 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Pivot/Hitbox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "attack"
-length = 1.1
+length = 1.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Pivot/Sprite:texture")
 tracks/0/interp = 1
@@ -90,6 +117,98 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Pivot/Hitbox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "dead"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pivot/Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pivot/Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Pivot/Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 3 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "hit"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pivot/Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 10 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pivot/Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Pivot/Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 3, 1, 4, 2, 5, 2, 6 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -174,12 +293,12 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
 }
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 200, 10 )
-
 [node name="EnemyBase" instance=ExtResource( 1 )]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource( 4 )
 speed = 50.0
+lifes = 100
 
 [node name="Collision" parent="." index="0"]
 position = Vector2( 1.5, -20 )
@@ -201,20 +320,46 @@ position = Vector2( 35, -8 )
 enabled = true
 cast_to = Vector2( 25, 0 )
 
+[node name="Detector" type="Area2D" parent="Pivot" index="3"]
+position = Vector2( 0, -6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Detector" index="0"]
+position = Vector2( 104, -19 )
+shape = SubResource( 2 )
+
+[node name="Hurtbox" parent="Pivot" index="4" instance=ExtResource( 12 )]
+collision_layer = 32
+collision_mask = 64
+character_path = NodePath("../..")
+state_machine_path = NodePath("../../EnemyBaseSM")
+sprite_path = NodePath("../Sprite")
+
+[node name="CollisionShape2D" parent="Pivot/Hurtbox" index="0"]
+position = Vector2( 6.5, -19.5 )
+shape = SubResource( 9 )
+
+[node name="Hitbox" parent="Pivot" index="5" instance=ExtResource( 13 )]
+collision_layer = 128
+collision_mask = 272
+state_machine = NodePath("../../EnemyBaseSM")
+character = NodePath("../..")
+damage = 1.0
+knockback_force = 100
+
+[node name="CollisionShape2D" parent="Pivot/Hitbox" index="0"]
+position = Vector2( 16.5, -22 )
+shape = SubResource( 10 )
+disabled = true
+
 [node name="Animation" parent="." index="2"]
 anims/RESET = SubResource( 3 )
 anims/attack = SubResource( 6 )
+anims/dead = SubResource( 7 )
+anims/hit = SubResource( 8 )
 anims/idle = SubResource( 4 )
 anims/run = SubResource( 5 )
 
-[node name="Detector" type="Area2D" parent="." index="3"]
-position = Vector2( 0, -6 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector" index="0"]
-position = Vector2( 0, -19 )
-shape = SubResource( 2 )
-
-[node name="EnemyBaseSM" type="Node" parent="." index="4"]
+[node name="EnemyBaseSM" type="Node" parent="." index="3"]
 script = ExtResource( 7 )
 
 [node name="Idle" type="Node" parent="EnemyBaseSM" index="0"]
@@ -226,5 +371,14 @@ script = ExtResource( 5 )
 [node name="Attack" type="Node" parent="EnemyBaseSM" index="2"]
 script = ExtResource( 9 )
 
-[connection signal="body_entered" from="Detector" to="." method="_on_Detector_body_entered"]
-[connection signal="body_exited" from="Detector" to="." method="_on_Detector_body_exited"]
+[node name="Hit" type="Node" parent="EnemyBaseSM" index="3"]
+script = ExtResource( 14 )
+
+[node name="Dead" type="Node" parent="EnemyBaseSM" index="4"]
+script = ExtResource( 15 )
+
+[connection signal="body_entered" from="Pivot/Detector" to="." method="_on_Detector_body_entered"]
+[connection signal="body_exited" from="Pivot/Detector" to="." method="_on_Detector_body_exited"]
+
+[editable path="Pivot/Hurtbox"]
+[editable path="Pivot/Hitbox"]

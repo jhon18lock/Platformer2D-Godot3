@@ -19,6 +19,10 @@ onready var collision:CollisionShape2D = $CollisionShape2D
 onready var invulnerability_timer:Timer = $InvulnerabilityTimer
 onready var tinter_timer:Timer = $TinterTimer
 
+
+## puede ser invulnerable momentaneamente
+export var can_invulnerable:bool = false
+
 var is_invulnerable:bool = false
 
 
@@ -31,11 +35,19 @@ func _ready():
 	invulnerability_timer.one_shot = true
 
 func take_damage(attack:Attack):
-	health -= attack.attack_damage
 	
 	if health > 0:
-		character.knockback = (attack.attack_position - global_position).normalized() * attack.knockback_force
-		print(character.knockback)
+		health -= attack.attack_damage
+		
+		var dir:Vector2 = (attack.attack_position - global_position).normalized()
+		if dir.x >= 0:
+			dir += Vector2(1,0)
+		else:
+			dir += Vector2(-1,0)
+		#character.knockback_dir = ((attack.attack_position - global_position).normalized() + Vector2(1,0))* attack.knockback_force
+		character.knockback_dir = dir * attack.knockback_force
+		
+		print("Player Knockback_dir: ", character.knockback_dir)
 		state_machine.change_state("Hit")
 		
 		is_invulnerable = true
@@ -43,8 +55,8 @@ func take_damage(attack:Attack):
 		tinter_timer.start()
 		invulnerability_timer.start()
 		
-	elif health <= 0:
-		state_machine.change_state("Dead")
+		if health <= 0:
+			state_machine.change_state("Dead")
 		
 
 

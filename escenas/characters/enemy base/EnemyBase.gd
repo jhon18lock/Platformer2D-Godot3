@@ -24,7 +24,7 @@ func _physics_process(delta):
 			if not state_machine.current_state.name in ["Attack", "Hit", "Dead"]:
 				state_machine.change_state("Attack")
 				player_pos_attack = player.global_position
-		print("Distancia al cuadrado: ", player.global_position.distance_squared_to(global_position))
+		#print("Distancia al cuadrado: ", player.global_position.distance_squared_to(global_position))
 		
 		return
 		

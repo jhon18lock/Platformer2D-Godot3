@@ -25,9 +25,24 @@ _global_script_classes=[ {
 "path": "res://escenas/characters/character model/Character.gd"
 }, {
 "base": "Area2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://components/Hitbox.gd"
+}, {
+"base": "Area2D",
 "class": "Hurtbox",
 "language": "GDScript",
 "path": "res://components/Hurtbox.gd"
+}, {
+"base": "Reference",
+"class": "Parry",
+"language": "GDScript",
+"path": "res://components/Parry.gd"
+}, {
+"base": "Area2D",
+"class": "Parrybox",
+"language": "GDScript",
+"path": "res://components/Parrybox.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "PigBase",
@@ -58,7 +73,10 @@ _global_script_class_icons={
 "Attack": "",
 "Background": "",
 "Character": "",
+"Hitbox": "",
 "Hurtbox": "",
+"Parry": "",
+"Parrybox": "",
 "PigBase": "",
 "Player": "",
 "PlayerStats": "",
@@ -93,6 +111,17 @@ ui_accept={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Enemy"
+2d_physics/layer_3="Terrain"
+2d_physics/layer_5="HurtboxPlayer"
+2d_physics/layer_6="HurtboxEnemy"
+2d_physics/layer_7="HitboxPlayer"
+2d_physics/layer_8="HitboxEnemy"
+2d_physics/layer_9="ParryboxPlayer"
 
 [physics]
 

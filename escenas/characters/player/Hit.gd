@@ -28,7 +28,8 @@ func update_lifes():
 func jump():
 	#character.velocity.y = character.jump_velocity / 2
 	#character.velocity.x = speed * character.direction.x
-	character.velocity.x = character.knockback.x #* speed
+	character.velocity.x = -character.knockback_dir.x #* speed
+
 	
 func exit():
 	anim_character.disconnect("animation_finished", self, "hitted")

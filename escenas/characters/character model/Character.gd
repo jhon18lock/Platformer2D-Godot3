@@ -1,7 +1,7 @@
 extends KinematicBody2D
 class_name Character
 
-var knockback:Vector2
+var knockback_dir:Vector2
 
 var direction: Vector2 = Vector2()
 var velocity:Vector2
